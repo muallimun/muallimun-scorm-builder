@@ -3,51 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muallimun SCORM Paketleyici</title>
+    <title>Muallimun SCORM Paketleyici | Premium Web</title>
     <style>
-        :root { --primary: #0078d4; --hover: #005a9e; --bg: #f4f7f6; --text: #333; --panel: #fff; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
-        .container { background: var(--panel); padding: 30px 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 750px; width: 100%; }
-        h2 { text-align: center; color: var(--primary); margin-top: 0; margin-bottom: 5px; }
-        .subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
+        :root { 
+            --primary: #0060df; 
+            --primary-hover: #003eaa; 
+            --secondary: #47525d;
+            --secondary-hover: #2c3643;
+            --bg-gradient: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            --panel: #ffffff; 
+            --text: #334155; 
+            --border: #e2e8f0;
+        }
         
+        body { 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+            background: var(--bg-gradient); 
+            color: var(--text); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 20px; 
+            box-sizing: border-box; 
+        }
+        
+        .container { 
+            background: var(--panel); 
+            padding: 40px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+            max-width: 800px; 
+            width: 100%; 
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        h2 { 
+            text-align: center; 
+            color: #1e293b; 
+            margin-top: 0; 
+            margin-bottom: 8px; 
+            font-weight: 800;
+            font-size: 28px;
+        }
+
+        .subtitle { 
+            text-align: center; 
+            color: #64748b; 
+            font-size: 15px; 
+            margin-bottom: 30px; 
+        }
+        
+        /* Uyarı Afişi (Firefox İçin) */
+        .browser-warning {
+            display: none;
+            background-color: #fef2f2;
+            border-left: 5px solid #ef4444;
+            color: #991b1b;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
         /* Form Elementleri */
-        .form-group { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
-        .input-box { flex: 1; min-width: 200px; display: flex; flex-direction: column; }
-        .input-box label { font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #555; }
-        .input-box input, .input-box select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; font-family: inherit; }
+        .form-group { 
+            display: flex; 
+            gap: 20px; 
+            margin-bottom: 25px; 
+            flex-wrap: wrap; 
+        }
+        .input-box { 
+            flex: 1; 
+            min-width: 200px; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        .input-box label { 
+            font-size: 13px; 
+            font-weight: 700; 
+            margin-bottom: 8px; 
+            color: #475569; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .input-box input, .input-box select { 
+            padding: 12px 15px; 
+            border: 2px solid var(--border); 
+            border-radius: 8px; 
+            font-size: 15px; 
+            font-family: inherit; 
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .input-box input:focus, .input-box select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 96, 223, 0.1);
+        }
         
         /* Butonlar */
-        .action-area { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; }
-        button { background-color: var(--primary); color: white; border: none; padding: 14px 24px; font-size: 15px; border-radius: 6px; cursor: pointer; transition: background 0.3s; font-weight: bold; display: flex; align-items: center; gap: 8px; }
-        button:hover { background-color: var(--hover); }
-        button:disabled { background-color: #ccc; cursor: not-allowed; }
-        .btn-secondary { background-color: #6c757d; }
-        .btn-secondary:hover { background-color: #5a6268; }
+        .action-area { 
+            display: flex; 
+            gap: 15px; 
+            justify-content: center; 
+            margin-bottom: 25px; 
+        }
+        button { 
+            background-color: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 14px 28px; 
+            font-size: 16px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            font-weight: 600; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            box-shadow: 0 4px 6px rgba(0, 96, 223, 0.2);
+        }
+        button:hover { 
+            background-color: var(--primary-hover); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 96, 223, 0.3);
+        }
+        button:active { transform: translateY(0); }
+        button:disabled { 
+            background-color: #cbd5e1; 
+            cursor: not-allowed; 
+            box-shadow: none;
+            transform: none;
+        }
+        .btn-secondary { 
+            background-color: var(--secondary); 
+            box-shadow: 0 4px 6px rgba(71, 82, 93, 0.2);
+        }
+        .btn-secondary:hover { 
+            background-color: var(--secondary-hover); 
+            box-shadow: 0 6px 12px rgba(71, 82, 93, 0.3);
+        }
 
         /* Terminal/Log Ekranı */
-        #log { text-align: left; background: #282c34; color: #abb2bf; padding: 15px; border-radius: 6px; font-family: 'Consolas', monospace; font-size: 13px; height: 250px; overflow-y: auto; white-space: pre-wrap; margin-bottom: 20px; border: 1px solid #1e2227; }
-        .success { color: #98c379; } .error { color: #e06c75; } .info { color: #61afef; } .warning { color: #e5c07b; }
+        #log { 
+            text-align: left; 
+            background: #1e293b; 
+            color: #f8fafc; 
+            padding: 20px; 
+            border-radius: 10px; 
+            font-family: 'Consolas', 'Monaco', monospace; 
+            font-size: 13px; 
+            height: 220px; 
+            overflow-y: auto; 
+            white-space: pre-wrap; 
+            margin-bottom: 30px; 
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .success { color: #4ade80; } 
+        .error { color: #f87171; } 
+        .info { color: #38bdf8; } 
+        .warning { color: #facc15; }
+
+        /* İndirme Seksiyonu (Premium Tasarım) */
+        .download-section {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .download-section h4 {
+            margin: 0 0 15px 0;
+            color: #334155;
+            font-size: 15px;
+        }
+        .download-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-dl {
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .btn-dl-setup {
+            background-color: #10b981;
+            color: white;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+        }
+        .btn-dl-setup:hover { background-color: #059669; transform: translateY(-1px); }
+        .btn-dl-portable {
+            background-color: #ffffff;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+        .btn-dl-portable:hover { background-color: #f1f5f9; transform: translateY(-1px); }
 
         /* Footer */
-        .footer { text-align: center; font-size: 13px; color: #777; border-top: 1px solid #eee; padding-top: 15px; }
-        .footer a { color: var(--primary); text-decoration: none; font-weight: bold; margin: 0 10px; }
+        .footer { 
+            text-align: center; 
+            font-size: 13px; 
+            color: #94a3b8; 
+            border-top: 1px solid var(--border); 
+            padding-top: 20px; 
+        }
+        .footer a { 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: 600; 
+            margin: 0 5px;
+        }
         .footer a:hover { text-decoration: underline; }
 
         /* Kılavuz Modal (Popup) */
-        .modal { display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
-        .modal-content { background-color: #fff; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%; position: relative; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #aaa; font-weight: bold; }
-        .close-btn:hover { color: #333; }
-        .guide-list li { margin-bottom: 12px; line-height: 1.5; font-size: 15px; }
-        .highlight { color: #d03a3a; font-weight: bold; }
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.7); align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .modal-content { background-color: #fff; padding: 40px; border-radius: 16px; max-width: 700px; width: 90%; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 28px; cursor: pointer; color: #94a3b8; font-weight: bold; transition: color 0.2s; }
+        .close-btn:hover { color: #0f172a; }
+        
+        .modal-content h3 { color: var(--primary); margin-top: 0; font-size: 22px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
+        .modal-content h4 { color: #334155; font-size: 16px; margin: 20px 0 10px 0; display: flex; align-items: center; gap: 8px; }
+        .modal-content p { font-size: 14px; line-height: 1.6; color: #475569; margin-bottom: 15px; }
+        .guide-list { padding-left: 20px; }
+        .guide-list li { margin-bottom: 12px; line-height: 1.6; font-size: 14px; color: #475569; }
+        .highlight { color: #dc2626; font-weight: 600; background: #fee2e2; padding: 2px 6px; border-radius: 4px; }
+        .tech-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>Muallimun SCORM Paketleyici</h2>
-    <div class="subtitle">EBA ve LMS sistemleri için tam uyumlu e-içerik paketleme aracı.</div>
+    <div class="subtitle">EBA ve popüler LMS sistemleri için tam uyumlu, profesyonel e-içerik paketleme aracı.</div>
+    
+    <!-- Tarayıcı Uyarısı (JavaScript ile kontrol edilecek) -->
+    <div id="browserWarning" class="browser-warning">
+        <strong>⚠️ Tarayıcı Uyumsuzluğu Tespit Edildi:</strong> Web tarayıcınız (Firefox vb.) güvenlik politikaları gereği gelişmiş klasör okuma özelliğini desteklememektedir. <br><br>
+        Sistemi sorunsuz kullanmak için lütfen <b>Google Chrome</b> veya <b>Microsoft Edge</b> tarayıcılarından birini kullanın ya da aşağıdaki bölümden <b>Masaüstü (Offline)</b> sürümümüzü indirin.
+    </div>
     
     <div class="form-group">
         <div class="input-box">
@@ -64,30 +269,67 @@
     </div>
 
     <div class="action-area">
-        <button id="guideBtn" class="btn-secondary">📖 Kullanım Kılavuzu</button>
-        <button id="selectDirBtn">📂 Klasörü Seç ve Paketle</button>
+        <button id="guideBtn" class="btn-secondary">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Rehber & Bilgi
+        </button>
+        <button id="selectDirBtn">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"></path></svg>
+            Klasörü Seç ve Paketle
+        </button>
     </div>
     
     <div id="log">Sistem hazır. Lütfen meta verileri kontrol edip klasörünüzü seçin...</div>
 
+    <!-- Yeni İndirme Seksiyonu -->
+    <div class="download-section">
+        <h4>⚡ Daha Hızlı ve Sınırsız Paketleme İçin Masaüstü Sürümünü İndirin</h4>
+        <div class="download-buttons">
+            <a href="https://github.com/muallimun/muallimun-scorm-builder/releases/download/v1.0/scorm-masaustu_0.1.0_x64-setup.exe" class="btn-dl btn-dl-setup">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Setup Kurulum (.exe)
+            </a>
+            <a href="https://github.com/muallimun/muallimun-scorm-builder/releases/download/v1.0/scorm-masaustu.exe" class="btn-dl btn-dl-portable">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                Portable Sürüm (.exe)
+            </a>
+        </div>
+    </div>
+
+    <!-- Güncellenmiş Footer -->
     <div class="footer">
-        Bir <a href="https://muallimun.net" target="_blank">Muallimun.Net</a> Ar-Ge Projesidir.<br><br>
-        <a href="https://onlinearapca.muallimun.net/scorm/" target="_blank">Çevrim İçi Versiyon</a> | 
-        <a href="#" target="_blank" title="GitHub Deposu">Masaüstü Uygulamasını İndir</a>
+        Bir <a href="https://muallimun.net" target="_blank">Muallimun.Net</a> Ar-Ge Projesidir.<br>
+        <span style="display: block; margin-top: 8px; color: #64748b; font-size: 13px;">
+            Şeffaf, güvenilir ve tamamen açık kaynak kodludur. İncelemek için:
+        </span>
+        <a href="https://github.com/muallimun/muallimun-scorm-builder" target="_blank" style="display: inline-flex; align-items: center; gap: 5px; margin-top: 5px;">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.022A9.606 9.606 0 0112 6.82c.85.004 1.705.114 2.504.336 1.909-1.29 2.747-1.022 2.747-1.022.546 1.379.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"></path></svg>
+            GitHub Deposu
+        </a>
     </div>
 </div>
 
-<!-- Kullanım Kılavuzu Modal -->
+<!-- Gelişmiş Kullanım Kılavuzu ve SCORM Bilgi Modalı -->
 <div id="guideModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" id="closeModal">&times;</span>
-        <h3 style="color: #0078d4; margin-top: 0;">📘 Kullanım Kılavuzu ve Uyarılar</h3>
+        <h3>📘 SCORM Rehberi ve Kullanım Kılavuzu</h3>
+        
+        <div class="tech-box">
+            <h4>📚 SCORM Nedir?</h4>
+            <p>SCORM (Sharable Content Object Reference Model), e-öğrenme içeriklerinin EBA, Moodle, Blackboard gibi <b>Öğrenim Yönetim Sistemleri (LMS)</b> ile haberleşmesini sağlayan uluslararası teknik bir standarttır.</p>
+            
+            <h4>🎯 Ne İşe Yarar? Mantığı Nedir?</h4>
+            <p>Eğitim materyallerinizi (HTML5, Articulate, Captivate vb.) doğrudan sisteme yüklerseniz LMS bunu sadece bir dosya yığını olarak görür. SCORM ise bu içeriklere bir <b>kimlik (imsmanifest.xml)</b> kazandırır. Bu sayede sistem; öğrencinin derste ne kadar süre geçirdiğini, nerede kaldığını ve sınavlardan kaç puan aldığını takip edebilir.</p>
+        </div>
+
+        <h4>⚙️ Uygulama Nasıl Kullanılır?</h4>
         <ul class="guide-list">
-            <li><b>Aşama 1:</b> İsteğe bağlı olarak proje başlığınızı ve hedef SCORM sürümünü menüden seçin. (EBA için 1.2 önerilir).</li>
+            <li><b>Aşama 1:</b> İsteğe bağlı olarak proje başlığınızı ve hedef SCORM sürümünü menüden seçin. (EBA sistemleri için genellikle <b>SCORM 1.2</b> standartları önerilir).</li>
             <li><b>Aşama 2:</b> "Klasörü Seç" butonuna tıklayarak bilgisayarınızdaki e-içerik klasörünü gösterin.</li>
-            <li><b>Aşama 3 (Dosya İsimleri):</b> Sistem otomatik olarak dosyalarınızı tarar. Eğer dosyalarınızda <span class="highlight">Türkçe karakter (ı,ğ,ü,ş,ö,ç) veya boşluk</span> varsa log ekranında kırmızı bir uyarı alırsınız. Bu dosyaların ismini düzeltmeden paketi sisteme yüklemeyin.</li>
-            <li><b>Aşama 4 (Kota):</b> EBA ve Moodle sistemleri genellikle 250 MB sınırına sahiptir. Klasör boyutunuz bu sınırı aşarsa sistem size sarı renkli bir uyarı verecektir.</li>
-            <li><b>Aşama 5 (En Önemlisi - ZİPLEME):</b> İşlem bittikten sonra orijinal klasörünüzün <u>içine girin</u>. Sadece klasörü değil, <span class="highlight">klasörün içindeki tüm dosyaları (imsmanifest.xml dahil) Ctrl+A ile seçerek</span> sağ tıklayıp .zip arşivi haline getirin.</li>
+            <li><b>Aşama 3 (Dosya İsimleri):</b> Sistem otomatik olarak dosyalarınızı tarar. Eğer dosyalarınızda <span class="highlight">Türkçe karakter (ı,ğ,ü,ş,ö,ç) veya boşluk</span> varsa log ekranında kırmızı bir uyarı alırsınız. Sunucu hatalarını önlemek için bu dosyaların ismini düzeltmeden paketi yüklemeyin.</li>
+            <li><b>Aşama 4 (Kota):</b> EBA ve Moodle sistemleri genellikle 250 MB sınırına sahiptir. Klasör boyutunuz bu sınırı aşarsa sistem size boyut uyarısı verecektir.</li>
+            <li><b>Aşama 5 (En Önemlisi - ZİPLEME):</b> İşlem bittikten sonra orijinal klasörünüzün <u>içine girin</u>. Sadece klasörü değil, klasörün içindeki <span class="highlight">tüm dosyaları (oluşan imsmanifest.xml dahil) Ctrl+A ile seçerek</span> sağ tıklayıp .zip arşivi haline getirin ve LMS sisteminize yükleyin.</li>
         </ul>
     </div>
 </div>
@@ -98,7 +340,18 @@
     const modal = document.getElementById('guideModal');
     const closeModal = document.getElementById('closeModal');
     const logDiv = document.getElementById('log');
+    const browserWarning = document.getElementById('browserWarning');
     
+    // --- TARAYICI KONTROLÜ (FIREFOX TESPİTİ) ---
+    // Firefox, showDirectoryPicker API'sini desteklemediği için tespit edilip buton kapatılır.
+    const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    if (isFirefox) {
+        browserWarning.style.display = "block";
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+        btn.innerHTML = "⚠️ Firefox Desteklenmiyor";
+    }
+
     // Modal İşlemleri
     guideBtn.onclick = () => modal.style.display = "flex";
     closeModal.onclick = () => modal.style.display = "none";
@@ -172,6 +425,11 @@
             problematicFiles = [];
             totalBytes = 0;
             
+            // API Desteği Son Kontrolü
+            if (!window.showDirectoryPicker) {
+                throw new Error("Tarayıcınız bu özelliği desteklemiyor. Lütfen Chrome, Edge kullanın veya Masaüstü sürümünü indirin.");
+            }
+
             const dirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
             log(`Klasör seçildi: ${dirHandle.name}`, 'info');
             log("Klasör analiz ediliyor...", 'info');
@@ -242,7 +500,7 @@
         } catch (err) {
             log(`Hata: ${err.message}`, 'error');
         } finally {
-            btn.disabled = false;
+            if(!isFirefox) btn.disabled = false;
         }
     });
 </script>
