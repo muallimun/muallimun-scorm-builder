@@ -34,6 +34,13 @@ Tarayıcıların RAM ve depolama limitlerine takılan eski nesil web araçların
 2. Programı açın, SCORM sürümünü (EBA için 1.2 önerilir) ve proje başlığınızı belirleyin.
 3. **"Klasörü Seç ve Paketle"** butonuna basın. Gerisini Rust motoru halledecektir!
 
+### 🌐 Çevrim İçi (Web) Sürümü
+Uygulamayı bilgisayarınıza kurmak istemiyorsanız veya farklı bir işletim sistemi kullanıyorsanız, hibrit mimarimiz sayesinde tarayıcı üzerinden anında paketleme yapabilirsiniz:
+👉 **[Hemen Kullan: Çevrim İçi SCORM Paketleyici](https://onlinearapca.muallimun.net/scorm/)**
+
+* **Kurulumsuz Kullanım:** Sadece klasörünüzü seçin ve web tarayıcınız paketlemeyi yapsın.
+* **Akıllı Kota Kontrolü:** EBA ve Moodle gibi sistemlerin 250 MB sınırına yaklaştığınızda sizi otomatik olarak uyarır.
+* *Not: Web API kısıtlamaları nedeniyle çevrim içi sürümde `.zip` dosyasını tarayıcının indirme yönergelerine göre manuel olarak indirmeniz/onaylamanız gerekebilir.*
 ---
 
 ## 🇬🇧 English
@@ -54,6 +61,13 @@ Unlike legacy web tools that hit browser RAM and storage limits, it is powered b
 2. Open the app, select the SCORM version (1.2 is recommended), and set your project title.
 3. Click the **"Select Folder & Package"** button. The Rust engine will handle the rest!
 
+### 🌐 Online (Web) Edition
+If you prefer not to install any software or are using a different operating system, you can use our browser-based hybrid version instantly:
+👉 **[Launch Online SCORM Builder](https://onlinearapca.muallimun.net/scorm/)**
+
+* **Zero Installation:** Just select your folder and let your browser handle the packaging.
+* **Smart Quota Checker:** Automatically warns you if your package exceeds the standard 250 MB limit for platforms like Moodle.
+* *Note: Due to Web API restrictions, the online version requires you to manually confirm/download the final `.zip` file via your browser.*
 ---
 
 <p align="center">
