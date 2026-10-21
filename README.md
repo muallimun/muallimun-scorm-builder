@@ -1,28 +1,62 @@
-# Muallimun SCORM Paketleyici
+<h1 align="center">
+  📦 Muallimun SCORM Paketleyici
+</h1>
 
-EBA (Eğitim Bilişim Ağı) ve Moodle gibi LMS (Öğrenme Yönetim Sistemleri) platformları için geliştirilmiş, HTML/JS/CSS tabanlı e-eğitim içeriklerini otomatik olarak SCORM 1.2 veya SCORM 2004 standartlarında paketleyen açık kaynaklı bir araçtır.
+<p align="center">
+  <strong>E-İçeriklerinizi Işık Hızında, Sıfır RAM Harcayarak SCORM Standartlarında Paketleyin!</strong><br>
+  <em>Package your e-learning content at lightning speed with zero RAM usage in SCORM standards!</em>
+</p>
 
-🌐 **[Çevrim İçi Versiyonu Kullanmak İçin Tıklayın](https://onlinearapca.muallimun.net/scorm/)**
+<p align="center">
+  <img src="https://img.shields.io/badge/Tauri-v2.0-24C8DB?style=for-the-badge&logo=tauri&logoColor=white" alt="Tauri v2">
+  <img src="https://img.shields.io/badge/Rust-Backend-000000?style=for-the-badge&logo=rust&logoColor=white" alt="Rust">
+  <img src="https://img.shields.io/badge/HTML5-Frontend-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5">
+  <img src="https://img.shields.io/badge/Size-~2%20MB-success?style=for-the-badge" alt="Size">
+</p>
 
-## ✨ Özellikler
+---
 
-* **Otomatik Manifest Üretimi:** Seçilen dizini özyinelemeli (recursive) tarayarak `imsmanifest.xml` dosyasını standartlara uygun şekilde saniyeler içinde oluşturur.
-* **LMS Uyumluluk Filtresi (Sanitizer):** Dosya ve klasör isimlerindeki Türkçe karakterleri (ı, ğ, ü, ş, ö, ç) ve boşlukları tespit ederek LMS sistemlerinde yaşanabilecek "Beyaz Ekran" hatalarını önceden engeller.
-* **Kota Kontrolü:** E-içerik klasör boyutunu analiz eder ve 250 MB'ı aşan durumlarda EBA/Moodle yükleme sınırları için uyarı verir.
-* **Sürüm Esnekliği:** SCORM 1.2 ve SCORM 2004 (4th Edition) standartları arasında geçiş imkanı sunar.
-* **Sıfır Sunucu Maliyeti:** Çevrim içi versiyon `File System Access API` kullandığı için tüm okuma/yazma işlemleri kullanıcının yerel tarayıcısında (RAM şişirmeden) gerçekleşir.
-* **Bağımsız Masaüstü Uygulaması:** Rust ve Tauri mimarisiyle geliştirilmiş, kurulumsuz (portable) çalışabilen son derece hafif masaüstü versiyonu mevcuttur.
+## 🇹🇷 Türkçe (Turkish)
 
-## 🚀 Masaüstü Sürümünü Geliştirme ve Derleme
+**Muallimun SCORM Paketleyici**, EBA (Eğitim Bilişim Ağı) ve tüm popüler LMS (Öğrenme Yönetim Sistemleri) altyapıları için geliştirilmiş tam uyumlu, ultra hafif ve yeni nesil bir masaüstü e-içerik paketleme yazılımıdır. 
 
-Bu proje Tauri çerçevesi kullanılarak geliştirilmiştir. Kendi bilgisayarınızda derlemek için:
+Tarayıcıların RAM ve depolama limitlerine takılan eski nesil web araçlarının aksine, gücünü **Rust** programlama dilinden alır ve devasa projeleri bile saniyeler içinde işler.
 
-**Gereksinimler:**
-- Node.js
-- Rust (rustup & cargo)
-- Microsoft Visual Studio C++ Build Tools (Windows için)
+### ✨ Premium Özellikler
 
-**Kurulum Adımları:**
-1. Depoyu bilgisayarınıza klonlayın:
-   ```bash
-   git clone [https://github.com/KULLANICI_ADINIZ/scorm-paketleyici.git](https://github.com/KULLANICI_ADINIZ/scorm-paketleyici.git)
+- 🚀 **Işık Hızında ZIP Motoru:** Rust tabanlı çekirdeği sayesinde binlerce dosyadan oluşan HTML5 içeriklerini işletim sistemini yormadan, sıfır RAM darboğazı ile saniyeler içinde `.zip` formatına dönüştürür.
+- 🪶 **Ultra Hafif:** Chromium tabanlı hantal Electron uygulamalarının aksine, **Tauri v2** mimarisi sayesinde kurulum dosyası sadece **~2 MB** boyutundadır.
+- 🧠 **Akıllı Manifest Yönetimi:** Klasördeki dosyaları analiz ederek SCORM 1.2 veya SCORM 2004 standartlarında kusursuz `imsmanifest.xml` dosyasını otomatik üretir. Proje güncellemelerinde kullanıcıyı yormadan arka planda manifesti sessizce günceller.
+- 📂 **Yerel İşletim Sistemi Entegrasyonu:** Paketleme bittiğinde tek tıkla Windows dosya gezginini açarak oluşturulan ZIP dosyasına anında erişim sağlar.
+
+### 📥 Kurulum & Kullanım
+1. [Releases](https://github.com/muallimun/muallimun-scorm-builder/releases/latest) sayfasından en güncel `scorm-masaustu_x64-setup.exe` dosyasını indirin ve kurun.
+2. Programı açın, SCORM sürümünü (EBA için 1.2 önerilir) ve proje başlığınızı belirleyin.
+3. **"Klasörü Seç ve Paketle"** butonuna basın. Gerisini Rust motoru halledecektir!
+
+---
+
+## 🇬🇧 English
+
+**Muallimun SCORM Builder** is a fully compliant, ultra-lightweight, next-generation desktop e-learning content packaging software developed for all popular LMS (Learning Management System) infrastructures.
+
+Unlike legacy web tools that hit browser RAM and storage limits, it is powered by the **Rust** programming language and processes even massive projects in seconds.
+
+### ✨ Premium Features
+
+- 🚀 **Lightning-Fast ZIP Engine:** Thanks to its Rust-based core, it packages HTML5 contents consisting of thousands of files into `.zip` format in seconds without OS fatigue and zero RAM bottlenecks.
+- 🪶 **Ultra Lightweight:** Unlike bulky Chromium-based Electron apps, the installer is only **~2 MB** in size, courtesy of the **Tauri v2** architecture.
+- 🧠 **Smart Manifest Management:** Analyzes directory files to automatically generate flawless `imsmanifest.xml` files in SCORM 1.2 or SCORM 2004 standards. It silently updates the manifest in the background during project iterations without annoying prompts.
+- 📂 **Native OS Integration:** Instantly access your generated ZIP file with a single click that opens the native Windows file explorer upon completion.
+
+### 📥 Installation & Usage
+1. Download and install the latest `scorm-masaustu_x64-setup.exe` from the [Releases](https://github.com/muallimun/muallimun-scorm-builder/releases/latest) page.
+2. Open the app, select the SCORM version (1.2 is recommended), and set your project title.
+3. Click the **"Select Folder & Package"** button. The Rust engine will handle the rest!
+
+---
+
+<p align="center">
+  Geliştirici: <a href="https://muallimun.net">Muallimun.Net</a> Ar-Ge Ekibi <br>
+  <em>Powered by Tauri & Rust</em>
+</p>
