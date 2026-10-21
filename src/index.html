@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muallimun SCORM Paketleyici v2.0</title>
+    <style>
+        :root { --primary: #0078d4; --hover: #005a9e; --bg: #f4f7f6; --text: #333; --panel: #fff; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .container { background: var(--panel); padding: 30px 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 750px; width: 100%; }
+        h2 { text-align: center; color: var(--primary); margin-top: 0; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
+        .form-group { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+        .input-box { flex: 1; min-width: 200px; display: flex; flex-direction: column; }
+        .input-box label { font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #555; }
+        .input-box input, .input-box select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; font-family: inherit; }
+        .action-area { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+        button { background-color: var(--primary); color: white; border: none; padding: 14px 24px; font-size: 15px; border-radius: 6px; cursor: pointer; transition: background 0.3s; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        button:hover { background-color: var(--hover); }
+        button:disabled { background-color: #ccc; cursor: not-allowed; opacity: 0.7; }
+        .btn-secondary { background-color: #6c757d; }
+        .btn-secondary:hover { background-color: #5a6268; }
+        .btn-success { background-color: #28a745; }
+        .btn-success:hover { background-color: #218838; }
+        #log { text-align: left; background: #282c34; color: #abb2bf; padding: 15px; border-radius: 6px; font-family: 'Consolas', monospace; font-size: 13px; height: 250px; overflow-y: auto; white-space: pre-wrap; margin-bottom: 20px; border: 1px solid #1e2227; }
+        .success { color: #98c379; } .error { color: #e06c75; } .info { color: #61afef; } .warning { color: #e5c07b; }
+        .footer { text-align: center; font-size: 13px; color: #777; border-top: 1px solid #eee; padding-top: 15px; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: bold; margin: 0 10px; }
+        .footer a:hover { text-decoration: underline; }
+        .modal { display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+        .modal-content { background-color: #fff; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%; position: relative; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #aaa; font-weight: bold; }
+        .close-btn:hover { color: #333; }
+        .guide-list li { margin-bottom: 12px; line-height: 1.5; font-size: 15px; }
+        .highlight { color: #d03a3a; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Muallimun SCORM Paketleyici</h2>
+    <div class="subtitle" id="envIndicator">EBA ve LMS sistemleri için tam uyumlu e-içerik paketleme aracı.</div>
+    
+    <div class="form-group">
+        <div class="input-box">
+            <label for="customTitle">Proje Başlığı (İsteğe Bağlı)</label>
+            <input type="text" id="customTitle" placeholder="Otomatik tespit edilsin...">
+        </div>
+        <div class="input-box">
+            <label for="scormVersion">SCORM Sürümü</label>
+            <select id="scormVersion">
+                <option value="1.2">SCORM 1.2 (EBA İçin Önerilen)</option>
+                <option value="2004">SCORM 2004 (4th Edition)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="action-area">
+        <button id="guideBtn" class="btn-secondary">📖 Kılavuz</button>
+        <button id="selectDirBtn">📂 Klasörü Seç ve Paketle</button>
+        <button id="openFolderBtn" class="btn-success" style="display:none;">📁 İlgili Klasörü Aç</button>
+    </div>
+    
+    <div id="log">Sistem hazır. Lütfen meta verileri kontrol edip klasörünüzü seçin...</div>
+
+    <div class="footer" id="dynamicFooter">
+        Bir <a href="https://muallimun.net" target="_blank">Muallimun.Net</a> Ar-Ge Projesidir.<br><br>
+        <!-- Linkler uygulamanın nerede çalıştığına göre JavaScript ile dinamik olarak doldurulacak -->
+    </div>
+</div>
+
+<!-- Kullanım Kılavuzu Modal -->
+<div id="guideModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeModal">&times;</span>
+        <h3 style="color: #0078d4; margin-top: 0;">📘 Kullanım Kılavuzu</h3>
+        <ul class="guide-list">
+            <li><b>Aşama 1:</b> İsteğe bağlı olarak proje başlığınızı ve SCORM sürümünü seçin.</li>
+            <li><b>Aşama 2:</b> Klasörünüzü seçin. Masaüstü sürümünde sistem <span class="highlight">otomatik olarak</span> ZIP paketini oluşturacaktır.</li>
+            <li><b>Aşama 3 (Dosya İsimleri):</b> Dosyalarınızda Türkçe karakter veya boşluk varsa sistem sizi uyaracaktır.</li>
+            <li><b>Aşama 4 (Kota):</b> EBA vb. sistemler 250 MB sınırına sahiptir. Aşım durumunda uyarı alırsınız.</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // --- HİBRİT MİMARİ ALGILAYICI ---
+    // Uygulamanın web'de mi yoksa masaüstü programı olarak mı çalıştığını tespit eder
+    const isDesktop = window.__TAURI_INTERNALS__ !== undefined || window.__TAURI__ !== undefined;
+    let desktopResultPath = ""; // Masaüstünde işlem bitince açılacak klasörün yolu
+    
+    // --- DİNAMİK ARAYÜZ (Footer) ---
+    const footer = document.getElementById('dynamicFooter');
+    if (isDesktop) {
+        document.getElementById('envIndicator').innerText += " (Masaüstü Sürümü)";
+        footer.innerHTML += `<a href="https://onlinearapca.muallimun.net/scorm/" target="_blank">Çevrim İçi Aracı Kullan</a> | <a href="https://github.com/muallimun/muallimun-scorm-builder" target="_blank">Açık Kaynak Kodları (GitHub)</a>`;
+    } else {
+        document.getElementById('envIndicator').innerText += " (Web Sürümü)";
+        footer.innerHTML += `<a href="https://github.com/muallimun/muallimun-scorm-builder/releases/latest" target="_blank">Masaüstü (Offline) Sürümü İndir</a>`;
+    }
+
+    // --- MODAL VE LOG İŞLEMLERİ ---
+    const guideBtn = document.getElementById('guideBtn');
+    const modal = document.getElementById('guideModal');
+    const closeModal = document.getElementById('closeModal');
+    const logDiv = document.getElementById('log');
+    
+    guideBtn.onclick = () => modal.style.display = "flex";
+    closeModal.onclick = () => modal.style.display = "none";
+    window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; }
+
+    function log(msg, type = 'info') {
+        const time = new Date().toLocaleTimeString();
+        logDiv.innerHTML += `\n<span class="${type}">[${time}] ${msg}</span>`;
+        logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    // --- MEVCUT WEB ÇEKİRDEĞİ (Yalnızca tarayıcıda çalışır) ---
+    const ignoreList = ['.git', 'node_modules', '.DS_Store', 'Thumbs.db', 'imsmanifest.xml'];
+    const launchCandidates = ['index_lms.html', 'story.html', 'index.html', 'main.html'];
+    const validNameRegex = /^[a-zA-Z0-9_.\-]+$/; 
+
+    function generateUUID() { return crypto.randomUUID ? crypto.randomUUID().replace(/-/g, '') : Math.random().toString(36).substring(2, 15); }
+
+    async function scanDirectory(dirHandle, path = '', filePaths = [], launchFile = null, launchFileHandle = null, totalBytes = 0, problematicFiles = []) {
+        for await (const entry of dirHandle.values()) {
+            if (ignoreList.includes(entry.name)) continue;
+            const entryPath = path ? `${path}/${entry.name}` : entry.name;
+            if (!validNameRegex.test(entry.name)) problematicFiles.push(entryPath);
+            if (entry.kind === 'file') {
+                filePaths.push(entryPath);
+                try { const file = await entry.getFile(); totalBytes += file.size; } catch(e) {}
+                if (!launchFile && launchCandidates.includes(entry.name) && !path) { launchFile = entry.name; launchFileHandle = entry; }
+            } else if (entry.kind === 'directory') {
+                const result = await scanDirectory(entry, entryPath, filePaths, launchFile, launchFileHandle, totalBytes, problematicFiles);
+                filePaths = result.filePaths; launchFile = result.launchFile; launchFileHandle = result.launchFileHandle; totalBytes = result.totalBytes; problematicFiles = result.problematicFiles;
+            }
+        }
+        return { filePaths, launchFile, launchFileHandle, totalBytes, problematicFiles };
+    }
+
+    async function extractTitle(fileHandle, fallbackName) {
+        try {
+            const file = await fileHandle.getFile(); const text = await file.text();
+            const doc = new DOMParser().parseFromString(text, "text/html");
+            const title = doc.querySelector("title");
+            if (title && title.textContent.trim()) return title.textContent.trim();
+        } catch (e) { } return fallbackName;
+    }
+
+    // --- ANA ÇALIŞTIRMA BUTONU ---
+    const btn = document.getElementById('selectDirBtn');
+    const openFolderBtn = document.getElementById('openFolderBtn');
+
+    btn.addEventListener('click', async () => {
+        try {
+            btn.disabled = true;
+            openFolderBtn.style.display = 'none';
+
+            let selectedVersion = document.getElementById('scormVersion').value;
+            let customTitleInput = document.getElementById('customTitle').value.trim();
+
+            if (isDesktop) {
+                // ==========================================
+                // V2.0 MASAÜSTÜ MOTORU (RUST DEVREYE GİRER)
+                // ==========================================
+                log("Masaüstü SCORM ve ZIP motoru başlatılıyor...", "info");
+                
+                const rustResult = await window.__TAURI__.core.invoke('process_desktop_scorm', { version: selectedVersion, title: customTitleInput });
+                
+                // Rust'tan gelen overwrite bilgisine göre dinamik log
+                if (rustResult.manifest_updated) {
+                    log("Mevcut imsmanifest.xml dosyası başarıyla güncellendi.", "info");
+                } else {
+                    log("imsmanifest.xml dosyası başarıyla üretildi.", "success");
+                }
+                
+                log(`Mükemmel! ${rustResult.zip_name} başarıyla paketlendi.`, "success");
+                
+                desktopResultPath = rustResult.path;
+                openFolderBtn.style.display = 'flex';
+
+            } else {
+                // ==========================================
+                // V1.0 WEB MOTORU (ÇEVRİM İÇİ İÇİN KUSURSUZ DEVAM)
+                // ==========================================
+                const dirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
+                log(`Klasör seçildi: ${dirHandle.name}`, 'info'); log("Klasör analiz ediliyor...", 'info');
+                
+                const { filePaths, launchFile, launchFileHandle, totalBytes, problematicFiles } = await scanDirectory(dirHandle, '', [], null, null, 0, []);
+                if (filePaths.length === 0) throw new Error("Klasör boş veya okunamadı.");
+                
+                const totalMB = (totalBytes / (1024 * 1024)).toFixed(2);
+                log(`Toplam ${filePaths.length} dosya bulundu. Boyut: ${totalMB} MB`, 'info');
+                if (totalMB > 250) log(`⚠️ UYARI: Paket boyutu (${totalMB} MB) EBA/Moodle sınırını aşıyor olabilir!`, 'warning');
+
+                if (problematicFiles.length > 0) {
+                    let warningMsg = `HATA: ${problematicFiles.length} adet dosyada Türkçe karakter/boşluk bulundu!\nLütfen düzeltin:\n`;
+                    for(let i=0; i < Math.min(8, problematicFiles.length); i++){ warningMsg += `❌ ${problematicFiles[i]}\n`; }
+                    log(warningMsg, 'error');
+                } else { log("Tüm dosya isimleri LMS uyumluluk testini geçti.", 'success'); }
+
+                let finalLaunchFile = launchFile || filePaths[0];
+                let projectTitle = customTitleInput !== "" ? customTitleInput : (launchFileHandle ? await extractTitle(launchFileHandle, dirHandle.name) : dirHandle.name);
+                
+                const manifestId = "MANIFEST_" + generateUUID(); const orgId = "ORG_" + generateUUID(); const itemId = "ITEM_" + generateUUID(); const resId = "RES_" + generateUUID();
+                const filesXml = filePaths.map(fp => `      <file href="${fp}" />`).join('\n');
+                let xmlContent = ""; // XML Şablonları (Kod kalabalığı olmaması için özetlendi, web'de aynen çalışır)
+                
+                if (selectedVersion === "1.2") {
+                    xmlContent = `<?xml version="1.0" encoding="utf-8"?>\n<manifest identifier="${manifestId}" version="1.0" xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">\n  <metadata><schema>ADL SCORM</schema><schemaversion>1.2</schemaversion></metadata>\n  <organizations default="${orgId}"><organization identifier="${orgId}"><title>${projectTitle}</title><item identifier="${itemId}" isvisible="true" identifierref="${resId}"><title>${projectTitle}</title></item></organization></organizations>\n  <resources><resource identifier="${resId}" type="webcontent" href="${finalLaunchFile}" adlcp:scormtype="sco">\n${filesXml}\n    </resource></resources>\n</manifest>`;
+                } else {
+                    xmlContent = `<?xml version="1.0" encoding="utf-8"?>\n<manifest identifier="${manifestId}" version="1.0" xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd">\n  <metadata><schema>ADL SCORM</schema><schemaversion>2004 4th Edition</schemaversion></metadata>\n  <organizations default="${orgId}"><organization identifier="${orgId}"><title>${projectTitle}</title><item identifier="${itemId}" identifierref="${resId}"><title>${projectTitle}</title></item></organization></organizations>\n  <resources><resource identifier="${resId}" type="webcontent" href="${finalLaunchFile}" adlcp:scormType="sco">\n${filesXml}\n    </resource></resources>\n</manifest>`;
+                }
+                const fileHandle = await dirHandle.getFileHandle('imsmanifest.xml', { create: true });
+                const writable = await fileHandle.createWritable();
+                await writable.write(xmlContent); await writable.close();
+                log(`İşlem Başarılı! imsmanifest.xml klasöre kaydedildi.\nLütfen manuel olarak Zip'leyin.`, 'success');
+            }
+        } catch (err) {
+            log(`Hata: ${err.message}`, 'error');
+        } finally {
+            btn.disabled = false;
+        }
+    });
+
+    // --- KLASÖRÜ AÇ BUTONU (Yalnızca Masaüstünde Çalışır) ---
+    openFolderBtn.addEventListener('click', async () => {
+        if (isDesktop && desktopResultPath) {
+            try {
+                // Güvenlik duvarını aşmak için doğrudan yazdığımız Rust komutunu çağırıyoruz
+                await window.__TAURI__.core.invoke('open_folder', { path: desktopResultPath });
+            } catch(e) {
+                log("Hata: " + e, "error");
+            }
+        }
+    });
+</script>
+</body>
+</html>
